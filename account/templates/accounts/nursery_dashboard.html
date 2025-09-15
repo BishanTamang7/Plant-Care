@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlantCare - Nursery Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'plant-green': '#386947ff',
+                        'plant-light': '#f5f5f0',
+                        'plant-soft': '#e8f3ec'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-plant-light">
+    <!-- Main Content -->
+    <main class="flex-grow bg-plant-soft">
+        <!-- Quick Actions & Recent Plants -->
+        <section class="px-4 sm:px-6 lg:px-8 pb-4 pt-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid lg:grid-cols-2 gap-6">
+                    
+                    <!-- Quick Actions -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-white rounded-lg shadow-sm p-5 border border-gray-200 h-full">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Quick Actions</h3>
+                            <div class="space-y-2">
+                                <a href="{% url "nursery:add_plant" %}" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-plant-light transition">
+                                    <div class="text-2xl">➕</div>
+                                    <div>
+                                        <h4 class="font-medium text-gray-900">Add New Plant</h4>
+                                        <p class="text-sm text-gray-600">List a new plant with care instructions</p>
+                                    </div>
+                                </a>
+                                <a href="{% url 'nursery:plant_list' %}" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-plant-light transition">
+                                    <div class="text-2xl">📋</div>
+                                    <div>
+                                        <h4 class="font-medium text-gray-900">Manage Plants</h4>
+                                        <p class="text-sm text-gray-600">Edit or remove existing listings</p>
+                                    </div>
+                                </a>
+                                <a href="{% url 'nursery:nursery_profile' %}" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-plant-light transition">
+                                    <div class="text-2xl">🏪</div>
+                                    <div>
+                                        <h4 class="font-medium text-gray-900">Update Profile</h4>
+                                        <p class="text-sm text-gray-600">Edit nursery information</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Plants -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-white rounded-lg shadow-sm p-5 border border-gray-200 h-full">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-lg font-semibold text-gray-900">Recent Plants</h3>
+                                <a href="{% url 'nursery:plant_list' %}" class="text-plant-green font-medium hover:underline">View all</a>
+                            </div>
+                            {% if recent_plants %}
+                                <div class="space-y-3">
+                                    {% for plant in recent_plants %}
+                                    <div class="flex items-center space-x-3 p-3 border border-gray-100 rounded-lg hover:border-plant-green transition">
+                                        <div class="w-16 h-16 bg-plant-light rounded-lg flex items-center justify-center">
+                                            {% if plant.image %}
+                                                <img src="{{ plant.image.url }}" alt="{{ plant.name }}" class="w-full h-full object-cover rounded-lg">
+                                            {% else %}
+                                                <span class="text-2xl">🌱</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="flex-grow">
+                                            <h4 class="font-medium text-gray-900">{{ plant.name }}</h4>
+                                            <p class="text-sm text-gray-600">{{ plant.category }} • ${{ plant.price }}</p>
+                                            <p class="text-xs text-gray-500">Added {{ plant.created_at|timesince }} ago</p>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="text-center py-6">
+                                    <div class="text-6xl mb-3">🌱</div>
+                                    <h4 class="text-lg font-medium text-gray-900 mb-1">No plants yet</h4>
+                                    <p class="text-gray-600 mb-3">Start building your plant catalog</p>
+                                    <a href="{% url "nursery:add_plant" %}" class="bg-plant-green text-white px-5 py-2 rounded-lg font-medium hover:bg-green-700 transition">
+                                        Add Your First Plant
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Tips Section -->
+        <section class="bg-plant-soft py-6 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Tips for Success</h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-white rounded-lg p-5 shadow-sm border border-gray-200">
+                        <div class="text-3xl mb-2">📸</div>
+                        <h4 class="font-semibold text-gray-900 mb-1">High-Quality Photos</h4>
+                        <p class="text-gray-600 text-sm">Use clear, well-lit photos to showcase your plants.</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-5 shadow-sm border border-gray-200">
+                        <div class="text-3xl mb-2">📝</div>
+                        <h4 class="font-semibold text-gray-900 mb-1">Detailed Care Instructions</h4>
+                        <p class="text-gray-600 text-sm">Provide care guides including watering, sunlight, and soil needs.</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-5 shadow-sm border border-gray-200">
+                        <div class="text-3xl mb-2">💬</div>
+                        <h4 class="font-semibold text-gray-900 mb-1">Engage with Community</h4>
+                        <p class="text-gray-600 text-sm">Respond quickly to comments and build trust with customers.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+{% endblock %}

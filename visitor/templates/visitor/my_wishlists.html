@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+    {% if wishlists %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for item in wishlists %}
+                <div class="bg-white shadow rounded-lg overflow-hidden">
+                    <!-- Plant Image -->
+                    <div class="h-40 bg-gray-100 flex items-center justify-center">
+                        {% if item.plant.image %}
+                            <img src="{{ item.plant.image.url }}" alt="{{ item.plant.name }}" class="h-full w-full object-cover">
+                        {% else %}
+                            <span class="text-4xl">🌿</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Plant Info -->
+                    <div class="p-4">
+                        <h2 class="text-lg font-semibold text-gray-800">{{ item.plant.name }}</h2>
+                        <p class="text-sm text-gray-500 mb-2">From: {{ item.plant.owner.nursery_name }}</p>
+                        <p class="text-green-600 font-semibold">NPR {{ item.plant.price }}</p>
+
+                        <div class="mt-4 flex justify-between items-center">
+                            <!-- Pass next=wishlist -->
+                            <a href="{% url 'visitor:plant_detail' item.plant.id %}?next=wishlist"
+                               class="px-3 py-1 text-sm bg-sky-500 text-white rounded hover:bg-sky-600 transition">
+                                View
+                            </a>
+                            <a href="{% url 'visitor:remove_from_wishlist' item.plant.id %}"
+                               class="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition">
+                                Remove
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center py-20">
+            <p class="text-gray-600 text-lg">You don’t have any plants in your wishlist yet 🌿</p>
+            <a href="{% url 'visitor:browse_plants' %}" class="mt-4 inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                Browse Plants
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlantCare - Your trusted platform for plant care</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'plant-green': '#386947ff',
+                        'plant-light': '#f5f5f0'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans min-h-screen flex flex-col">
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+
+                <div class="flex items-center space-x-2">
+                    {% if user.is_authenticated %}
+                        {% if user.role == "visitor" %}
+                            <a href="{% url 'visitor_dashboard' %}" class="flex items-center space-x-2">
+                                <span class="text-2xl">🌱</span>
+                                <span class="text-xl font-semibold text-gray-900">PlantCare</span>
+                            </a>
+                        {% elif user.role == "nursery" %}
+                            <a href="{% url 'nursery_dashboard' %}" class="flex items-center space-x-2">
+                                <span class="text-2xl">🌱</span>
+                                <span class="text-xl font-semibold text-gray-900">PlantCare</span>
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'home' %}" class="flex items-center space-x-2">
+                            <span class="text-2xl">🌱</span>
+                            <span class="text-xl font-semibold text-gray-900">PlantCare</span>
+                        </a>
+                    {% endif %}
+                </div>
+                
+                <!-- Navigation Menu -->
+                <nav class="flex space-x-8">
+                    {% if user.is_authenticated %}
+                        {% if user.role == "visitor" %}
+                            <a href="{% url 'visitor:browse_plants' %}" 
+                               class="font-medium {% if request.resolver_match.url_name == 'browse_plants' %} text-sky-600 underline decoration-sky-500 font-semibold {% else %} text-gray-900 {% endif %}">
+                               Browse Plants
+                            </a>
+
+                            <a href="{% url 'visitor:my_wishlists' %}" 
+                               class="font-medium {% if request.resolver_match.url_name == 'my_wishlists' %} text-sky-600 underline decoration-sky-500 font-semibold {% else %} text-gray-900 {% endif %}">
+                               My Wishlist
+                            </a>
+
+                            <a href="{% url 'visitor:visitor_profile' %}" 
+                               class="font-medium {% if request.resolver_match.url_name == 'visitor_profile' %} text-sky-600 underline decoration-sky-500 font-semibold {% else %} text-gray-900 {% endif %}">
+                               Visitor Profile
+                            </a>
+
+                        {% elif user.role == "nursery" %}
+                            {% url 'nursery:plant_list' as plant_list_url %}
+                            {% url 'nursery:add_plant' as add_plant_url %}
+                            {% url 'nursery:nursery_profile' as nursery_profile_url %}
+
+                            <a href="{{ plant_list_url }}" 
+                               class="font-medium {% if request.resolver_match.url_name == 'plant_list' %} text-sky-600 underline decoration-sky-500 font-semibold {% else %} text-gray-900 {% endif %}">
+                               My Plants
+                            </a>
+
+                            <a href="{{ add_plant_url }}" 
+                               class="font-medium {% if request.resolver_match.url_name == 'add_plant' %} text-sky-600 underline decoration-sky-500 font-semibold {% else %} text-gray-900 {% endif %}">
+                               Add Plants
+                            </a>
+
+                            <a href="{{ nursery_profile_url }}" 
+                               class="font-medium {% if request.resolver_match.url_name == 'nursery_profile' %} text-sky-600 underline decoration-sky-500 font-semibold {% else %} text-gray-900 {% endif %}">
+                               Nursery Profile
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'login' %}" 
+                           class="font-medium {% if request.resolver_match.url_name == 'login' %} text-sky-600 underline decoration-sky-500 font-semibold {% else %} text-gray-900 {% endif %}">
+                           Login
+                        </a>
+
+                        <a href="{% url 'register' %}" 
+                           class="font-medium {% if request.resolver_match.url_name == 'register' %} text-sky-600 underline decoration-sky-500 font-semibold {% else %} text-gray-900 {% endif %}">
+                           Register
+                        </a>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block content %}
+        <!-- Page-specific content will go here -->
+        {% endblock %}
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 h-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-2xl">🌱</span>
+                        <span class="text-xl font-semibold text-gray-900">PlantCare</span>
+                    </div>
+                    <span class="text-gray-500">© 2024 PlantCare. All rights reserved.</span>
+                </div>
+                
+                <nav class="flex space-x-6">
+                    <a href="#" class="text-gray-500 hover:text-gray-700">About</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-700">Contact</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-700">Privacy</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-700">Terms</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-700">Help</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

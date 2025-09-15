@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlantCare - Register</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+  <div class="max-w-lg w-full bg-white p-6 rounded-2xl shadow-lg h-[90vh] overflow-hidden flex flex-col relative">
+      
+      <a href="{% url 'home' %}" 
+         class="absolute top-4 left-4 text-sm font-medium text-green-700 hover:text-green-900 flex items-center">
+          ← Back to Home
+      </a>
+
+      <h2 class="text-2xl font-bold text-center text-gray-800 mb-4 flex-shrink-0">Create an Account</h2>
+
+      <div class="flex-1 overflow-y-auto" id="form-container">
+          <form method="POST" class="space-y-4">
+              {% csrf_token %}
+              
+              <!-- Role selection -->
+              <div>
+                  <label class="block text-gray-700 font-medium mb-2 text-center">Register as:</label>
+                  <div class="flex justify-center space-x-4">
+                      <label class="flex-1 max-w-[150px] cursor-pointer">
+                          <input type="radio" name="role" value="visitor"
+                              class="peer hidden" checked>
+                          <div class="p-3 border rounded-xl text-center peer-checked:border-green-600 peer-checked:bg-green-50 transition">
+                              <span class="font-semibold text-gray-700">Visitor</span>
+                          </div>
+                      </label>
+                      <label class="flex-1 max-w-[150px] cursor-pointer">
+                          <input type="radio" name="role" value="nursery"
+                              class="peer hidden">
+                          <div class="p-3 border rounded-xl text-center peer-checked:border-green-600 peer-checked:bg-green-50 transition">
+                              <span class="font-semibold text-gray-700">Nursery</span>
+                          </div>
+                      </label>
+                  </div>
+              </div>
+
+              <!-- Visitor fields -->
+              <div id="visitor-fields" class="space-y-4">
+                  <div>
+                      <label class="block text-gray-700 font-medium mb-1">Username</label>
+                      <input type="text" name="username" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500" placeholder="Enter your username">
+                  </div>
+              </div>
+
+              <!-- Nursery fields -->
+              <div id="nursery-fields" class="hidden space-y-4">
+                  <div>
+                      <label class="block text-gray-700 font-medium mb-1">Nursery Name</label>
+                      <input type="text" name="nursery_name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500" placeholder="Enter nursery name">
+                  </div>
+                  <div>
+                      <label class="block text-gray-700 font-medium mb-1">Nursery Address</label>
+                      <textarea name="nursery_address" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500" placeholder="Enter nursery address"></textarea>
+                  </div>
+                  <div>
+                      <label class="block text-gray-700 font-medium mb-1">Phone Number</label>
+                      <input type="tel" name="phone_number" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500" placeholder="Enter phone number">
+                  </div>
+                  <div>
+                      <label class="block text-gray-700 font-medium mb-1">Description</label>
+                      <textarea name="nursery_description" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500" placeholder="Describe your nursery"></textarea>
+                  </div>
+              </div>
+
+              <!-- Email -->
+              <div>
+                  <label class="block text-gray-700 font-medium mb-1">Email</label>
+                  <input type="email" name="email" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500" placeholder="Enter your email">
+              </div>
+
+              <!-- Password -->
+              <div>
+                  <label class="block text-gray-700 font-medium mb-1">Password</label>
+                  <div class="relative">
+                      <input type="password" id="password" name="password"
+                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500 pe-10"
+                          placeholder="Enter your password">
+                      <button type="button" onclick="togglePassword('password','eyeOpen1','eyeClosed1')" 
+                          class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-green-600">
+                          <svg id="eyeOpen1" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                          </svg>
+                          <svg id="eyeClosed1" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-5.523 0-10-4-10-7s4.477-7 10-7c.653 0 1.287.063 1.896.183M9.88 9.88a3 3 0 104.24 4.24"/>
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18"/>
+                          </svg>
+                      </button>
+                  </div>
+              </div>
+
+              <!-- Confirm Password -->
+              <div>
+                  <label class="block text-gray-700 font-medium mb-1">Confirm Password</label>
+                  <div class="relative">
+                      <input type="password" id="confirm_password" name="confirm_password"
+                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500 pe-10"
+                          placeholder="Confirm your password">
+                      <button type="button" onclick="togglePassword('confirm_password','eyeOpen2','eyeClosed2')" 
+                          class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-green-600">
+                          <svg id="eyeOpen2" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                          </svg>
+                          <svg id="eyeClosed2" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-5.523 0-10-4-10-7s4.477-7 10-7c.653 0 1.287.063 1.896.183M9.88 9.88a3 3 0 104.24 4.24"/>
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18"/>
+                          </svg>
+                      </button>
+                  </div>
+              </div>
+
+              <button type="submit"
+                  class="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition shadow-md">
+                  Register
+              </button>
+
+              <p class="text-center text-gray-600 mt-3">
+                  Already have an account?
+                  <a href="{% url 'login' %}" class="text-green-600 font-medium hover:underline">Login</a>
+              </p>
+          </form>
+      </div>
+  </div>
+
+  <script>
+      // Role toggle
+      document.addEventListener("DOMContentLoaded", function () {
+          const roleInputs = document.querySelectorAll("input[name='role']");
+          const visitorFields = document.getElementById("visitor-fields");
+          const nurseryFields = document.getElementById("nursery-fields");
+
+          function toggleFields() {
+              const selectedRole = document.querySelector("input[name='role']:checked")?.value;
+              visitorFields.style.display = selectedRole === "visitor" ? "block" : "none";
+              nurseryFields.style.display = selectedRole === "nursery" ? "block" : "none";
+          }
+
+          roleInputs.forEach(input => input.addEventListener("change", toggleFields));
+          toggleFields();
+      });
+
+      // Password toggle function
+      function togglePassword(fieldId, eyeOpenId, eyeClosedId) {
+          const field = document.getElementById(fieldId);
+          const eyeOpen = document.getElementById(eyeOpenId);
+          const eyeClosed = document.getElementById(eyeClosedId);
+
+          const isPassword = field.type === "password";
+          field.type = isPassword ? "text" : "password";
+          eyeOpen.classList.toggle("hidden", !isPassword);
+          eyeClosed.classList.toggle("hidden", isPassword);
+      }
+  </script>
+</body>
+</html>

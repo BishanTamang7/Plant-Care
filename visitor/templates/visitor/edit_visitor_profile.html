@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="max-w-md mx-auto px-4 py-10">
+    <div class="bg-white rounded-xl shadow-md border p-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Edit Profile</h2>
+
+        <!-- Form -->
+        <form method="POST" class="space-y-5">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <!-- Username -->
+            <div>
+                <label for="id_username" class="block text-sm font-medium text-gray-700 mb-1">
+                    Username
+                </label>
+                <input type="text" name="username" id="id_username"
+                       value="{{ form.username.value|default:'' }}"
+                       class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-plant-green focus:outline-none">
+                {{ form.username.errors }}
+            </div>
+
+            <!-- Email -->
+            <div>
+                <label for="id_email" class="block text-sm font-medium text-gray-700 mb-1">
+                    Email
+                </label>
+                <input type="email" name="email" id="id_email"
+                       value="{{ form.email.value|default:'' }}"
+                       class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-plant-green focus:outline-none">
+                {{ form.email.errors }}
+            </div>
+
+            <!-- Submit -->
+            <button type="submit"
+                    class="w-full py-2 px-4 bg-plant-green text-white rounded-lg hover:bg-green-700 transition-colors">
+                Save Changes
+            </button>
+        </form>
+
+        <!-- Back to Profile -->
+        <p class="text-center text-sm text-gray-600 mt-6">
+            <a href="{% url 'visitor:visitor_profile' %}" class="text-plant-green hover:underline">
+                ← Back to Profile
+            </a>
+        </p>
+    </div>
+</main>
+{% endblock %}

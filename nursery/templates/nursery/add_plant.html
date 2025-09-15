@@ -1,0 +1,94 @@
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add Plant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-lg px-4">
+        <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
+            <!-- Header -->
+            <div class="bg-green-600 text-white text-center py-4">
+                <h4 class="text-xl font-semibold">🌱 Add a New Plant</h4>
+            </div>
+
+            <!-- Form -->
+            <div class="p-6">
+                <form method="POST" enctype="multipart/form-data" class="space-y-4">
+                    {% csrf_token %}
+
+                    <!-- Plant Name -->
+                    <div>
+                        <label for="{{ form.name.id_for_label }}" class="block text-gray-700 font-medium mb-1">
+                            {{ form.name.label }}:
+                        </label>
+                        {{ form.name.errors }}
+                        {{ form.name|add_class:"w-full border rounded-lg px-3 py-2"|attr:"placeholder:Enter plant name" }}
+                    </div>
+
+                    <!-- Category -->
+                    <div>
+                        <label for="{{ form.category.id_for_label }}" class="block text-gray-700 font-medium mb-1">
+                            {{ form.category.label }}:
+                        </label>
+                        {{ form.category.errors }}
+                        {{ form.category|add_class:"w-full border rounded-lg px-3 py-2" }}
+                    </div>
+
+                    <!-- Price -->
+                    <div>
+                        <label for="{{ form.price.id_for_label }}" class="block text-gray-700 font-medium mb-1">
+                            {{ form.price.label }}:
+                        </label>
+                    {{ form.price.errors }}
+                    {{ form.price|add_class:"w-full border rounded-lg px-3 py-2"|attr:"placeholder:Enter price in NPR" }}
+                    </div>
+
+                    <!-- Image Upload -->
+                    <div>
+                        <label for="{{ form.image.id_for_label }}" class="block text-gray-700 font-medium mb-1">
+                            {{ form.image.label }}:
+                        </label>
+                    {{ form.image.errors }}
+                    {{ form.image|add_class:"w-full border rounded-lg px-3 py-2" }}
+                    </div>
+
+                    <!-- Care Instructions -->
+                    <div>
+                        <label for="{{ form.care_instructions.id_for_label }}" class="block text-gray-700 font-medium mb-1">
+                            {{ form.care_instructions.label }}:
+                        </label>
+                    {{ form.care_instructions.errors }}
+                    {{ form.care_instructions|add_class:"w-full border rounded-lg px-3 py-2 h-32"|attr:"placeholder:Write care instructions..." }}
+                    </div>
+
+                    <!-- Care Level -->
+                    <div>
+                        <label for="{{ form.care_level.id_for_label }}" class="block text-gray-700 font-medium mb-1">
+                            {{ form.care_level.label }}:
+                        </label>
+                        {{ form.care_level.errors }}
+                        {{ form.care_level|add_class:"w-full border rounded-lg px-3 py-2" }}
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="flex gap-3">
+                        <a href="{% url 'nursery:plant_list' %}" 
+                            class="flex-1 text-center border border-gray-400 text-gray-600 hover:bg-gray-100 font-medium py-3 px-4 rounded-full transition">
+                            ← Back
+                        </a>
+
+                        <button type="submit"
+                            class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-full shadow-md transition">
+                                Add Plant
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-[70vh]">
+    <!-- Plant Details -->
+     <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="md:flex">
+            <!-- Plant Image -->
+            <div class="md:w-1/2">
+                {% if plant.image %}
+                    <img src="{{ plant.image.url }}" alt="{{ plant.name }}"
+                        class="w-full h-64 md:h-full object-cover">
+                {% else %}
+                    <div class="w-full h-64 md:h-full bg-gray-200 flex items-center justify-center">
+                        <span class="text-gray-500 text-6xl">🌿</span>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Plant Information -->
+            <div class="md:w-1/2 flex items-center justify-center p-6">
+                <div class="text-center">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ plant.name }}</h1>
+
+                    <!-- Category and Care Level Tags -->
+                    <div class="mb-4 space-x-2">
+                        <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                            {{ plant.get_category_display }}
+                        </span>
+
+                        <span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                            Care: {{ plant.get_care_level_display }}
+                        </span>
+                    </div>
+
+                    <!-- Price -->
+                    <p class="text-3xl font-bold text-green-600 mb-4">NPR {{ plant.price }}</p>
+
+                    <!-- Wishlist Button -->
+                    <form method="post" action="{% url 'visitor:add_to_wishlist' plant.id %}" class="mb-4">
+                        {% csrf_token %}
+                        <button type="submit"
+                            class="inline-block w-full bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-600 transition">
+                            Add to Wishlist
+                        </button>
+                    </form>
+
+                    <!-- Added Date -->
+                    <div class="text-sm text-gray-500 mb-6">
+                        <p>Added: {{ plant.created_at|date:"M d, Y" }}</p>
+                    </div>
+
+                    <!-- Care Instructions -->
+                    <div class="mb-6 text-left">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Care Instructions:</h3>
+                        <ol class="list-decimal list-inside text-gray-600 leading-relaxed space-y-1">
+                            {% for instruction in plant.care_instructions.splitlines %}
+                                {% if instruction %}
+                                    <li>{{ instruction }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Back Button -->
+    <div class="mt-8 text-center">
+        {% if request.GET.next == "wishlist" %}
+            <a href="{% url 'visitor:my_wishlists' %}" 
+                class="inline-block px-6 py-2 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition">
+                    ← Back to Wishlist
+            </a>
+        {% else %}
+            <a href="{% url 'visitor:browse_plants' %}" 
+                class="inline-block px-6 py-2 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition">
+                    ← Back to Plants
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
